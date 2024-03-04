@@ -1,6 +1,7 @@
 package com.example.calenderapp.event;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+import com.example.calenderapp.event.update.AbstractAuditableEvent;
 
 import java.time.ZonedDateTime;
 import java.util.Set;
@@ -19,5 +20,15 @@ public class Todo extends AbstractEvent{
     @Override
     public void print() {
         System.out.printf("[할 일] %s : %s%n", getTitle(), description);
+    }
+
+    @Override
+    public boolean support(EventType type) {
+        return type == EventType.TO_DO;
+    }
+
+    @Override
+    protected void update(AbstractAuditableEvent update) {
+
     }
 }

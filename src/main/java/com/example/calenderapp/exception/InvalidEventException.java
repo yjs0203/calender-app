@@ -1,4 +1,4 @@
-package com.example.calenderapp.event.exception;
+package com.example.calenderapp.exception;
 
 public class InvalidEventException extends RuntimeException{
     public InvalidEventException(String messge){
