@@ -1,10 +1,8 @@
-package com.example.calenderapp.event;
+package com.example.calendarapp.event;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import com.example.calenderapp.event.update.AbstractAuditableEvent;
+import com.example.calendarapp.event.update.AbstractAuditableEvent;
 
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 public class Todo extends AbstractEvent{
 

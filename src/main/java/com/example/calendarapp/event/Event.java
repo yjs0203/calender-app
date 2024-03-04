@@ -1,4 +1,4 @@
-package com.example.calenderapp.event;
+package com.example.calendarapp.event;
 
 public interface Event {
     void print();

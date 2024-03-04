@@ -1,4 +1,4 @@
-package com.example.calenderapp.event.update;
+package com.example.calendarapp.event.update;
 
 import java.time.ZonedDateTime;
 import java.util.Set;

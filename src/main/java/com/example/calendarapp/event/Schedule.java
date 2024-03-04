@@ -1,4 +1,4 @@
-package com.example.calenderapp.event;
+package com.example.calendarapp.event;
 
 import java.util.ArrayList;
 import java.util.List;

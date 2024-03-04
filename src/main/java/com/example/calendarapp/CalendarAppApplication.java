@@ -1,19 +1,17 @@
-package com.example.calenderapp;
+package com.example.calendarapp;
 
-import com.example.calenderapp.event.Meeting;
-import com.example.calenderapp.event.Schedule;
-import com.example.calenderapp.event.Todo;
-import com.example.calenderapp.event.update.UpdateMeeting;
-import com.example.calenderapp.reader.EventCsvReader;
+import com.example.calendarapp.event.Meeting;
+import com.example.calendarapp.event.Schedule;
+import com.example.calendarapp.event.update.UpdateMeeting;
+import com.example.calendarapp.reader.EventCsvReader;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
 import java.util.List;
 
 @SpringBootApplication
-public class CalenderAppApplication {
+public class CalendarAppApplication {
 
     public static void main(String[] args) throws IOException {
         Schedule schedule = new Schedule();

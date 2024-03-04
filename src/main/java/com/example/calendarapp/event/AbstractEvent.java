@@ -1,7 +1,7 @@
-package com.example.calenderapp.event;
+package com.example.calendarapp.event;
 
-import com.example.calenderapp.event.update.AbstractAuditableEvent;
-import com.example.calenderapp.exception.InvalidEventException;
+import com.example.calendarapp.event.update.AbstractAuditableEvent;
+import com.example.calendarapp.exception.InvalidEventException;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;

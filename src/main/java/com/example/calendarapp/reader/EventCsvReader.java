@@ -1,6 +1,6 @@
-package com.example.calenderapp.reader;
+package com.example.calendarapp.reader;
 
-import com.example.calenderapp.event.Meeting;
+import com.example.calendarapp.event.Meeting;
 import com.opencsv.CSVReader;
 
 import java.io.IOException;
