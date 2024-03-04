@@ -39,7 +39,14 @@ public abstract class AbstractEvent implements Event{
         this.deleteYn = false;
     }
 
-    public String getTitle() {
-        return this.title;
+    public String getTitle() { return this.title; }
+
+    public ZonedDateTime getStartAt() {
+        return startAt;
     }
+
+    public ZonedDateTime getEndAt() {
+        return endAt;
+    }
+
 }
