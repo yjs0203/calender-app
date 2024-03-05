@@ -44,9 +44,25 @@ public class CalanderTodoListApplication {
 
         EventCsvReader csvReader = new EventCsvReader(new RawCsvReader());
         String meetingCsvPath = "/data/meeting.csv";
+        String noDisturbanceCsvPath = "/data/no_disturbance.csv";
+        String outOfOfficeCsvPath = "/data/out_of_office.csv";
+        String toDoCsvPath = "/data/to_do.csv";
 
         List<Meeting> meetings = csvReader.readMeetings(meetingCsvPath);
         meetings.forEach(schedule::add);
+
+        List<NoDisturbance> noDisturbances = csvReader.readNoDisturbance(noDisturbanceCsvPath);
+        noDisturbances.forEach(schedule::add);
+
+        List<OutOfOffice> outOfOffices = csvReader.readOutOfOffice(outOfOfficeCsvPath);
+        outOfOffices.forEach(schedule::add);
+
+        List<Todo> toDo = csvReader.readToDo(toDoCsvPath);
+        toDo.forEach(schedule::add);
+
+        schedule.printAll();
+
+        System.out.println("------------------------------------------");
 
         Meeting meeting = meetings.get(0);
         meeting.print();

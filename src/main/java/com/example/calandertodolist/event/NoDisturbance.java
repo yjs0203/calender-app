@@ -17,7 +17,7 @@ public class NoDisturbance extends AbstractEvent {
 
     @Override
     public void print() {
-
+        System.out.printf("[방해금지] %s : %s%n", getTitle(), getEndAt());
     }
 
     @Override
