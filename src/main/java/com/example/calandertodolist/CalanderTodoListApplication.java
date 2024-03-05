@@ -3,6 +3,7 @@ package com.example.calandertodolist;
 import com.example.calandertodolist.event.*;
 import com.example.calandertodolist.event.update.UpdateMeeting;
 import com.example.calandertodolist.reader.EventCsvReader;
+import com.example.calandertodolist.reader.RawCsvReader;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class CalanderTodoListApplication {
 //        );
 //        schedule.add(todo2);
 
-        EventCsvReader csvReader = new EventCsvReader();
+        EventCsvReader csvReader = new EventCsvReader(new RawCsvReader());
         String meetingCsvPath = "/data/meeting.csv";
 
         List<Meeting> meetings = csvReader.readMeetings(meetingCsvPath);
