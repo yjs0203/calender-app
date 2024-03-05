@@ -12,6 +12,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class EventCsvReader {
@@ -27,23 +29,34 @@ public class EventCsvReader {
 
             String[] each = read.get(i);
 
+            // Meeting 으로 변환 부분
             result.add(
                     new Meeting(
                             Integer.parseInt(each[0]),
                             each[2],
                             ZonedDateTime.of(
-                                    LocalDateTime.parse(each[6], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), ZoneId.of("Asia/Seoul")),
-                            each[7],
-                            each[3],
+                                    LocalDateTime.parse(
+                                            each[6],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                    ),
+
+                                    ZoneId.of("Asia/Seoul")
+                            ),
+                            ZonedDateTime.of(
+                                    LocalDateTime.parse(
+                                            each[6],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                    ),
+
+                                    ZoneId.of("Asia/Seoul")
+                            ),
+                            new HashSet<>(Arrays.asList(each[3].split(","))),
                             each[4],
                             each[5]
 
                     )
             );
         }
-
-
-        // Meeting 으로 변환 부분
 
         return result;
     }
