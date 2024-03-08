@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 
 public class UpdateOutOfOffice extends AbstractAuditableEvent{
 
-    protected UpdateOutOfOffice(String title, ZonedDateTime startAt, ZonedDateTime endAt) {
+    public UpdateOutOfOffice(String title, ZonedDateTime startAt, ZonedDateTime endAt) {
         super(title, startAt, endAt);
     }
 }

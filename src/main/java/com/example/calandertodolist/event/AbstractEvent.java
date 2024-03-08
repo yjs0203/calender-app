@@ -70,4 +70,12 @@ public abstract class AbstractEvent implements Event{
 
     public ZonedDateTime getEndAt() { return endAt; }
 
+    public boolean getDelteYn() { return deleteYn; }
+
+    public boolean setDeleteYn(boolean deleteYn) {
+        this.deleteYn = deleteYn;
+        return deleteYn;
+    }
+
+
 }

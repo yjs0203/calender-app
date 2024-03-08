@@ -2,6 +2,7 @@ package com.example.calandertodolist.event;
 
 import com.example.calandertodolist.event.update.AbstractAuditableEvent;
 import com.example.calandertodolist.event.update.UpdateMeeting;
+import com.example.calandertodolist.event.update.UpdateNoDisturbance;
 
 import java.time.ZonedDateTime;
 
@@ -23,6 +24,6 @@ public class NoDisturbance extends AbstractEvent {
 
     @Override
     protected void update(AbstractAuditableEvent update) {
-        UpdateMeeting meetingUpdate = (UpdateMeeting) update;
+        UpdateNoDisturbance updateNoDisturbance = (UpdateNoDisturbance) update;
     }
 }

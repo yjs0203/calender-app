@@ -48,9 +48,9 @@ class EventCsvReaderTest {
 
         // when
         List<Meeting> meetings = sut.readMeetings(path);
-//        List<NoDisturbance> noDisturbances = sut.readNoDisturbance(path);
-//        List<OutOfOffice> outOfOffices = sut.readOutOfOffice(path);
-//        List<Todo> toDo = sut.readToDo(path);
+        List<NoDisturbance> noDisturbances = sut.readNoDisturbance(path);
+        List<OutOfOffice> outOfOffices = sut.readOutOfOffice(path);
+        List<Todo> toDo = sut.readToDo(path);
 
         // then
         assertEquals(mockSize, meetings.size());
