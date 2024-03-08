@@ -1,6 +1,9 @@
 package com.example.calandertodolist.reader;
 
 import com.example.calandertodolist.event.Meeting;
+import com.example.calandertodolist.event.NoDisturbance;
+import com.example.calandertodolist.event.OutOfOffice;
+import com.example.calandertodolist.event.Todo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,6 +48,9 @@ class EventCsvReaderTest {
 
         // when
         List<Meeting> meetings = sut.readMeetings(path);
+//        List<NoDisturbance> noDisturbances = sut.readNoDisturbance(path);
+//        List<OutOfOffice> outOfOffices = sut.readOutOfOffice(path);
+//        List<Todo> toDo = sut.readToDo(path);
 
         // then
         assertEquals(mockSize, meetings.size());

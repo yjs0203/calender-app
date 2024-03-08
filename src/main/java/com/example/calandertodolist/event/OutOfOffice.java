@@ -17,7 +17,7 @@ public class OutOfOffice extends AbstractEvent {
 
     @Override
     public void print() {
-        System.out.printf("[자리비움] %s : %s%n", getTitle(), getEndAt());
+        System.out.printf("[자리비움] %s : %s, %s%n", getTitle(), getStartAt(), getEndAt());
     }
 
     @Override
