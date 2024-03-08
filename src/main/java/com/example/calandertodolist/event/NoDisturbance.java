@@ -1,6 +1,7 @@
 package com.example.calandertodolist.event;
 
 import com.example.calandertodolist.event.update.AbstractAuditableEvent;
+import com.example.calandertodolist.event.update.UpdateMeeting;
 
 import java.time.ZonedDateTime;
 
@@ -11,17 +12,17 @@ public class NoDisturbance extends AbstractEvent {
     }
 
     @Override
-    protected void update(AbstractAuditableEvent update) {
-
-    }
-
-    @Override
     public void print() {
-        System.out.printf("[방해금지] %s : %s%n", getTitle(), getEndAt());
+        System.out.printf("[방해금지] %s : %s, %s%n", getTitle(),getStartAt(),getEndAt());
     }
 
     @Override
     public boolean support(EventType type) {
         return type == EventType.NO_DISTURBANCE;
+    }
+
+    @Override
+    protected void update(AbstractAuditableEvent update) {
+        UpdateMeeting meetingUpdate = (UpdateMeeting) update;
     }
 }

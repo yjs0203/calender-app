@@ -62,8 +62,9 @@ public class CalanderTodoListApplication {
 
         schedule.printAll();
 
-        System.out.println("------------------------------------------");
+        System.out.println("Meeting CRUD------------------------------------------");
 
+        System.out.println("수정 전 ...");
         Meeting meeting = meetings.get(0);
         meeting.print();
 
@@ -78,6 +79,10 @@ public class CalanderTodoListApplication {
                         "new agenda"
                 )
         );
+        meeting.print();
+
+        System.out.println("삭제 전 ...");
+        meeting.print();
 
         meeting.delete(true);
         System.out.println("삭제 후 수정 시도 ...");
