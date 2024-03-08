@@ -1,6 +1,8 @@
 package com.example.calandertodolist.event;
 
 import com.example.calandertodolist.event.update.AbstractAuditableEvent;
+import com.example.calandertodolist.event.update.UpdateNoDisturbance;
+import com.example.calandertodolist.event.update.UpdateOutOfOffice;
 
 import java.time.ZonedDateTime;
 
@@ -12,7 +14,7 @@ public class OutOfOffice extends AbstractEvent {
 
     @Override
     protected void update(AbstractAuditableEvent update) {
-
+        UpdateOutOfOffice updateOutOfOffice = (UpdateOutOfOffice) update;
     }
 
     @Override

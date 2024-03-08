@@ -2,10 +2,15 @@ package com.example.calandertodolist;
 
 import com.example.calandertodolist.event.*;
 import com.example.calandertodolist.event.update.UpdateMeeting;
+import com.example.calandertodolist.event.update.UpdateNoDisturbance;
+import com.example.calandertodolist.event.update.UpdateOutOfOffice;
+import com.example.calandertodolist.event.update.UpdateTodo;
+import com.example.calandertodolist.exception.InvalidEventException;
 import com.example.calandertodolist.reader.EventCsvReader;
 import com.example.calandertodolist.reader.RawCsvReader;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.management.RuntimeMBeanException;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -14,7 +19,6 @@ import java.util.List;
 
 @SpringBootApplication
 public class CalanderTodoListApplication {
-
     public static void main(String[] args) throws IOException {
         Schedule schedule = new Schedule();
 
@@ -57,21 +61,23 @@ public class CalanderTodoListApplication {
         List<OutOfOffice> outOfOffices = csvReader.readOutOfOffice(outOfOfficeCsvPath);
         outOfOffices.forEach(schedule::add);
 
-        List<Todo> toDo = csvReader.readToDo(toDoCsvPath);
-        toDo.forEach(schedule::add);
+        List<Todo> toDos = csvReader.readToDo(toDoCsvPath);
+        toDos.forEach(schedule::add);
 
+        System.out.println("==========Meeting CRUD==========");
+        System.out.println("--- CSV READER Origin DATA ---");
         schedule.printAll();
+        System.out.println();
 
-        System.out.println("Meeting CRUD------------------------------------------");
-
-        System.out.println("수정 전 ...");
+        System.out.println("=== 수정 전 ===");
         Meeting meeting = meetings.get(0);
         meeting.print();
+        System.out.println();
 
-        System.out.println("수정 후 ...");
+        System.out.println("=== 수정 후 ===");
         meetings.get(0).validateAndUpdate(
                 new UpdateMeeting(
-                        "new title",
+                        "Meeting Update Success",
                         ZonedDateTime.now(),
                         ZonedDateTime.now().plusHours(1),
                         null,
@@ -80,26 +86,178 @@ public class CalanderTodoListApplication {
                 )
         );
         meeting.print();
+        System.out.println();
 
-        System.out.println("삭제 전 ...");
+        System.out.println("=== 삭제 전 ===");
         meeting.print();
+        System.out.println();
 
         meeting.delete(true);
-        System.out.println("삭제 후 수정 시도 ...");
-        meetings.get(0).validateAndUpdate(
-                new UpdateMeeting(
-                        "new title 2",
+        System.out.println("=== 삭제 후 수정 시도 ===");
+
+        try{
+            meetings.get(0).validateAndUpdate(
+                    new UpdateMeeting(
+                            "new title 2",
+                            ZonedDateTime.now(),
+                            ZonedDateTime.now().plusHours(1),
+                            null,
+                            "B",
+                            "new agenda 2"
+                    )
+            );
+        } catch (RuntimeException e) {
+            System.out.println("!!! 오류 발생, 다음 코드 진행 !!!");
+            System.out.println();
+        }
+
+        System.out.println("=== 전체 일정 재출력 ===");
+        schedule.printAll();
+        System.out.println();
+        schedule.resetSchedule();
+
+
+        System.out.println("==========NoDisturbance CRUD==========");
+        System.out.println("--- CSV READER Origin DATA ---");
+        schedule.printAll();
+        System.out.println();
+
+        System.out.println("=== 수정 전 ===");
+        NoDisturbance noDisturbance = noDisturbances.get(0);
+        noDisturbance.print();
+        System.out.println();
+
+        System.out.println("=== 수정 후 ===");
+        noDisturbances.get(0).validateAndUpdate(
+                new UpdateNoDisturbance(
+                        "NoDisturbance Update Success",
                         ZonedDateTime.now(),
-                        ZonedDateTime.now().plusHours(1),
-                        null,
-                        "B",
-                        "new agenda 2"
+                        ZonedDateTime.now().plusHours(1)
                 )
         );
+        noDisturbance.print();
+        System.out.println();
 
-        meeting.print(); //삭제된 data 수정불가.
+        System.out.println("=== 삭제 전 ===");
+        noDisturbance.print();
+        System.out.println();
 
-        System.out.println("전체 일정 ...");
+        noDisturbance.delete(true);
+        System.out.println("=== 삭제 후 수정 시도 ===");
+
+        try {
+            noDisturbances.get(0).validateAndUpdate(
+                    new UpdateNoDisturbance(
+                            "NoDisturbance Delete Success",
+                            ZonedDateTime.now(),
+                            ZonedDateTime.now().plusHours(1)
+                    )
+            );
+        } catch (RuntimeException e) {
+            System.out.println("!!! 오류 발생, 다음 코드 진행 !!!");
+            System.out.println();
+        }
+
+        System.out.println("=== 전체 일정 재출력 ===");
         schedule.printAll();
+        System.out.println();
+        schedule.resetSchedule();
+
+
+        System.out.println("==========OutOfOffice CRUD==========");
+        System.out.println("--- CSV READER Origin DATA ---");
+        schedule.printAll();
+        System.out.println();
+
+        System.out.println("=== 수정 전 ===");
+        OutOfOffice outOfOffice = outOfOffices.get(0);
+        outOfOffice.print();
+        System.out.println();
+
+        System.out.println("=== 수정 후 ===");
+        outOfOffices.get(0).validateAndUpdate(
+                new UpdateOutOfOffice(
+                        "OutOfOffice Update Success",
+                        ZonedDateTime.now(),
+                        ZonedDateTime.now().plusHours(1)
+                )
+        );
+        outOfOffice.print();
+        System.out.println();
+
+        System.out.println("=== 삭제 전 ===");
+        outOfOffice.print();
+        System.out.println();
+
+        outOfOffice.delete(true);
+        System.out.println("=== 삭제 후 수정 시도 ===");
+
+        try {
+            outOfOffices.get(0).validateAndUpdate(
+                    new UpdateOutOfOffice(
+                            "NoDisturbance Delete Success",
+                            ZonedDateTime.now(),
+                            ZonedDateTime.now().plusHours(1)
+                    )
+            );
+        } catch (RuntimeException e) {
+            System.out.println("!!! 오류 발생, 다음 코드 진행 !!!");
+            System.out.println();
+        }
+
+        System.out.println("=== 전체 일정 재출력 ===");
+        schedule.printAll();
+        System.out.println();
+        schedule.resetSchedule();
+
+
+        System.out.println("==========ToDo CRUD==========");
+        System.out.println("--- CSV READER Origin DATA ---");
+        schedule.printAll();
+        System.out.println();
+
+        System.out.println("=== 수정 전 ===");
+        Todo toDo = toDos.get(0);
+        toDo.print();
+        System.out.println();
+
+        System.out.println("=== 수정 후 ===");
+        toDos.get(0).validateAndUpdate(
+                new UpdateTodo(
+                        "ToDo Update Success",
+                        ZonedDateTime.now(),
+                        ZonedDateTime.now().plusHours(1),
+                        "ToDo Update Description"
+                )
+        );
+        toDo.print();
+        System.out.println();
+
+        System.out.println("=== 삭제 전 ===");
+        toDo.print();
+        System.out.println();
+
+        toDo.delete(true);
+        System.out.println("=== 삭제 후 수정 시도 ===");
+
+        try {
+            outOfOffices.get(0).validateAndUpdate(
+                    new UpdateTodo(
+                            "ToDo Delete Success",
+                            ZonedDateTime.now(),
+                            ZonedDateTime.now().plusHours(1),
+                            "ToDo Delete Success1"
+                    )
+            );
+        } catch (RuntimeException e) {
+            System.out.println("!!! 오류 발생, 다음 코드 진행 !!!");
+            System.out.println();
+        }
+
+        System.out.println("=== 전체 일정 재출력 ===");
+        schedule.printAll();
+        System.out.println();
+        schedule.resetSchedule();
+
     }
 }

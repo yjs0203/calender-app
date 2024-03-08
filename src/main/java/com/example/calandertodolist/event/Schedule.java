@@ -9,13 +9,20 @@ public class Schedule {
 
     public void add(AbstractEvent event) {
         if (hasScheduleConflictWith(event)) {
-            return;
+            throw new RuntimeException(
+                    String.format(
+                            "이미 스케줄이 있는 시간에는 추가할 수 없습니다. %s : %s%n",
+                            event.getTitle(), event.getStartAt()
+                    )
+            );
         }
         this.events.add(event);
     }
 
     public void printAll() {
-        events.forEach(Event::print);
+        events.stream()
+                .filter(event -> !event.getDelteYn())
+                .forEach(Event::print);
     }
 
     public void printBy(EventType type) {
@@ -29,5 +36,11 @@ public class Schedule {
                 .anyMatch(each ->
                         (event.getStartAt().isBefore(each.getEndAt()) && event.getStartAt().isAfter(each.getStartAt()))
                             || (event.getEndAt().isAfter(each.getStartAt())) && event.getEndAt().isBefore(each.getEndAt()));
+    }
+
+    public void resetSchedule() {
+        events.stream()
+                .filter(AbstractEvent::getDelteYn)
+                .forEach(event -> event.setDeleteYn(false));
     }
 }

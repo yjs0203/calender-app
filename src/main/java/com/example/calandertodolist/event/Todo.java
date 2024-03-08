@@ -1,6 +1,8 @@
 package com.example.calandertodolist.event;
 
 import com.example.calandertodolist.event.update.AbstractAuditableEvent;
+import com.example.calandertodolist.event.update.UpdateNoDisturbance;
+import com.example.calandertodolist.event.update.UpdateTodo;
 
 import java.time.ZonedDateTime;
 import java.util.Set;
@@ -28,6 +30,8 @@ public class Todo extends AbstractEvent{
 
     @Override
     protected void update(AbstractAuditableEvent update) {
+        UpdateTodo updateTodo = (UpdateTodo) update;
 
+        this.description = updateTodo.getDescription();
     }
 }
