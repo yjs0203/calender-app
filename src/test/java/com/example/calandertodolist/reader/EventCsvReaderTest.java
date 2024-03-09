@@ -48,8 +48,6 @@ class EventCsvReaderTest {
 
         // when
         List<Meeting> meetings = sut.readMeetings(path);
-//        List<OutOfOffice> outOfOffices = sut.readOutOfOffice(path);
-//        List<Todo> toDo = sut.readToDo(path);
 
         // then
         assertEquals(mockSize, meetings.size());
@@ -105,6 +103,31 @@ class EventCsvReaderTest {
         assertEquals("title0", outOfOffices.get(0).getTitle());
     }
 
+    @Test
+    public void readerToDo() throws IOException {
+        // given
+        String path = "";
+//        EventCsvReader sut = new EventCsvReader(rawCsvReader);
+
+        List<String[]> mockData = new ArrayList<>();
+        mockData.add(new String[6]);
+
+        int mockSize = 5;
+        for (int i = 0; i < mockSize; i++) {
+            mockData.add(toDoMock(i));
+        }
+
+        when(rawCsvReader.readAll(path)).thenReturn(mockData);
+
+        // when
+        List<Todo> toDo = sut.readToDo(path);
+
+
+        // then
+        assertEquals(mockSize, toDo.size());
+        assertEquals("title0", toDo.get(0).getTitle());
+    }
+
     private String[] meetingMock(int id) {
         String[] mock = new String[8];
         mock[0] = String.valueOf(id);
@@ -137,6 +160,18 @@ class EventCsvReaderTest {
         mock[2] = "title"+id;
         mock[3] = of(ZonedDateTime.now().plusHours(id));
         mock[4] = of(ZonedDateTime.now().plusHours(id+1));
+
+        return  mock;
+    }
+
+    private String[] toDoMock(int id) {
+        String[] mock = new String[6];
+        mock[0] = String.valueOf(id);
+        mock[1] = "TO_DO"+id;
+        mock[2] = "title"+id;
+        mock[3] = "description"+id;
+        mock[4] = of(ZonedDateTime.now().plusHours(id));
+        mock[5] = of(ZonedDateTime.now().plusHours(id+1));
 
         return  mock;
     }

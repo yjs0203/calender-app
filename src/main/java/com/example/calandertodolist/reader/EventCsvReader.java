@@ -83,7 +83,7 @@ public class EventCsvReader {
 
             String[] each = read.get(i);
 
-            // Meeting 으로 변환 부분
+            // NoDisturbance 으로 변환 부분
             result.add(
                     new NoDisturbance(
                             Integer.parseInt(each[0]),
@@ -123,7 +123,7 @@ public class EventCsvReader {
 
             String[] each = read.get(i);
 
-            // Meeting 으로 변환 부분
+            // OutOfOffice 으로 변환 부분
             result.add(
                     new OutOfOffice(
                             Integer.parseInt(each[0]),
@@ -183,7 +183,8 @@ public class EventCsvReader {
                                     ),
 
                                     ZoneId.of("Asia/Seoul")
-                            ), each[3]
+                            ),
+                            each[3]
                     )
             );
         }
