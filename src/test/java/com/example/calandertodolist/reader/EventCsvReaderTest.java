@@ -58,7 +58,6 @@ class EventCsvReaderTest {
     public void readerNoDisturbance() throws IOException {
         // given
         String path = "";
-//        EventCsvReader sut = new EventCsvReader(rawCsvReader);
 
         List<String[]> mockData = new ArrayList<>();
         mockData.add(new String[5]);
@@ -82,21 +81,19 @@ class EventCsvReaderTest {
     public void readerOutOfOffice() throws IOException {
         // given
         String path = "";
-//        EventCsvReader sut = new EventCsvReader(rawCsvReader);
 
         List<String[]> mockData = new ArrayList<>();
         mockData.add(new String[5]);
 
         int mockSize = 5;
         for (int i = 0; i < mockSize; i++) {
-            mockData.add(noDisturbanceMock(i));
+            mockData.add(outOfOfficeMock(i));
         }
 
         when(rawCsvReader.readAll(path)).thenReturn(mockData);
 
         // when
         List<OutOfOffice> outOfOffices = sut.readOutOfOffice(path);
-
 
         // then
         assertEquals(mockSize, outOfOffices.size());
@@ -107,7 +104,6 @@ class EventCsvReaderTest {
     public void readerToDo() throws IOException {
         // given
         String path = "";
-//        EventCsvReader sut = new EventCsvReader(rawCsvReader);
 
         List<String[]> mockData = new ArrayList<>();
         mockData.add(new String[6]);
@@ -121,7 +117,6 @@ class EventCsvReaderTest {
 
         // when
         List<Todo> toDo = sut.readToDo(path);
-
 
         // then
         assertEquals(mockSize, toDo.size());
