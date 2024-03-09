@@ -48,7 +48,6 @@ class EventCsvReaderTest {
 
         // when
         List<Meeting> meetings = sut.readMeetings(path);
-//        List<NoDisturbance> noDisturbances = sut.readNoDisturbance(path);
 //        List<OutOfOffice> outOfOffices = sut.readOutOfOffice(path);
 //        List<Todo> toDo = sut.readToDo(path);
 
@@ -64,7 +63,7 @@ class EventCsvReaderTest {
 //        EventCsvReader sut = new EventCsvReader(rawCsvReader);
 
         List<String[]> mockData = new ArrayList<>();
-        mockData.add(new String[8]);
+        mockData.add(new String[5]);
 
         int mockSize = 5;
         for (int i = 0; i < mockSize; i++) {
@@ -79,6 +78,31 @@ class EventCsvReaderTest {
         // then
         assertEquals(mockSize, noDisturbances.size());
         assertEquals("title0", noDisturbances.get(0).getTitle());
+    }
+
+    @Test
+    public void readerOutOfOffice() throws IOException {
+        // given
+        String path = "";
+//        EventCsvReader sut = new EventCsvReader(rawCsvReader);
+
+        List<String[]> mockData = new ArrayList<>();
+        mockData.add(new String[5]);
+
+        int mockSize = 5;
+        for (int i = 0; i < mockSize; i++) {
+            mockData.add(noDisturbanceMock(i));
+        }
+
+        when(rawCsvReader.readAll(path)).thenReturn(mockData);
+
+        // when
+        List<OutOfOffice> outOfOffices = sut.readOutOfOffice(path);
+
+
+        // then
+        assertEquals(mockSize, outOfOffices.size());
+        assertEquals("title0", outOfOffices.get(0).getTitle());
     }
 
     private String[] meetingMock(int id) {
@@ -99,6 +123,17 @@ class EventCsvReaderTest {
         String[] mock = new String[5];
         mock[0] = String.valueOf(id);
         mock[1] = "NO_DISTURBANCE"+id;
+        mock[2] = "title"+id;
+        mock[3] = of(ZonedDateTime.now().plusHours(id));
+        mock[4] = of(ZonedDateTime.now().plusHours(id+1));
+
+        return  mock;
+    }
+
+    private String[] outOfOfficeMock(int id) {
+        String[] mock = new String[5];
+        mock[0] = String.valueOf(id);
+        mock[1] = "OUT_OF_OFFICE"+id;
         mock[2] = "title"+id;
         mock[3] = of(ZonedDateTime.now().plusHours(id));
         mock[4] = of(ZonedDateTime.now().plusHours(id+1));
