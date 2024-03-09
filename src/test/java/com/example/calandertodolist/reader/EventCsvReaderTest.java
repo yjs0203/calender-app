@@ -31,7 +31,7 @@ class EventCsvReaderTest {
     private EventCsvReader sut;
 
     @Test
-    public void reader() throws IOException {
+    public void readerMeeting() throws IOException {
         // given
         String path = "";
 //        EventCsvReader sut = new EventCsvReader(rawCsvReader);
@@ -41,23 +41,47 @@ class EventCsvReaderTest {
 
         int mockSize = 5;
         for (int i = 0; i < mockSize; i++) {
-            mockData.add(generateMock(i));
+            mockData.add(meetingMock(i));
         }
 
         when(rawCsvReader.readAll(path)).thenReturn(mockData);
 
         // when
         List<Meeting> meetings = sut.readMeetings(path);
-        List<NoDisturbance> noDisturbances = sut.readNoDisturbance(path);
-        List<OutOfOffice> outOfOffices = sut.readOutOfOffice(path);
-        List<Todo> toDo = sut.readToDo(path);
+//        List<NoDisturbance> noDisturbances = sut.readNoDisturbance(path);
+//        List<OutOfOffice> outOfOffices = sut.readOutOfOffice(path);
+//        List<Todo> toDo = sut.readToDo(path);
 
         // then
         assertEquals(mockSize, meetings.size());
         assertEquals("title0", meetings.get(0).getTitle());
     }
 
-    private String[] generateMock(int id) {
+    @Test
+    public void readerNoDisturbance() throws IOException {
+        // given
+        String path = "";
+//        EventCsvReader sut = new EventCsvReader(rawCsvReader);
+
+        List<String[]> mockData = new ArrayList<>();
+        mockData.add(new String[8]);
+
+        int mockSize = 5;
+        for (int i = 0; i < mockSize; i++) {
+            mockData.add(noDisturbanceMock(i));
+        }
+
+        when(rawCsvReader.readAll(path)).thenReturn(mockData);
+
+        // when
+        List<NoDisturbance> noDisturbances = sut.readNoDisturbance(path);
+
+        // then
+        assertEquals(mockSize, noDisturbances.size());
+        assertEquals("title0", noDisturbances.get(0).getTitle());
+    }
+
+    private String[] meetingMock(int id) {
         String[] mock = new String[8];
         mock[0] = String.valueOf(id);
         mock[1] = "MEETING"+id;
@@ -67,6 +91,17 @@ class EventCsvReaderTest {
         mock[5] = "test"+id;
         mock[6] = of(ZonedDateTime.now().plusHours(id));
         mock[7] = of(ZonedDateTime.now().plusHours(id+1));
+
+        return  mock;
+    }
+
+    private String[] noDisturbanceMock(int id) {
+        String[] mock = new String[5];
+        mock[0] = String.valueOf(id);
+        mock[1] = "NO_DISTURBANCE"+id;
+        mock[2] = "title"+id;
+        mock[3] = of(ZonedDateTime.now().plusHours(id));
+        mock[4] = of(ZonedDateTime.now().plusHours(id+1));
 
         return  mock;
     }
