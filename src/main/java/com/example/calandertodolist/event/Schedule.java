@@ -35,7 +35,8 @@ public class Schedule {
         return events.stream()
                 .anyMatch(each ->
                         (event.getStartAt().isBefore(each.getEndAt()) && event.getStartAt().isAfter(each.getStartAt()))
-                            || (event.getEndAt().isAfter(each.getStartAt())) && event.getEndAt().isBefore(each.getEndAt()));
+                            || (event.getEndAt().isAfter(each.getStartAt())) && event.getEndAt().isBefore(each.getEndAt())
+                            || event.getStartAt().equals(each.getStartAt()) && event.getEndAt().equals(each.getEndAt()));
     }
 
     public void resetSchedule() {

@@ -89,12 +89,218 @@ public class NoDisturbance extends AbstractEvent{
 - open-csv
 - https://www.baeldung.com/opencsv
 
+```java
+public class EventCsvReader {
+
+    private final RawCsvReader rawCsvReader;
+
+    public EventCsvReader(RawCsvReader rawCsvReader) {
+        this.rawCsvReader = rawCsvReader;
+    }
+
+    public List<Meeting> readMeetings(String path) throws IOException {
+        List<Meeting> result = new ArrayList<>();
+
+        // 데이터를 읽는 부분
+        List<String[]> read = rawCsvReader.readAll(path);
+        for (int i = 0; i < read.size(); i++) {
+            if (skipHeader(i)) {
+                continue;
+            }
+
+            String[] each = read.get(i);
+
+            // Meeting 으로 변환 부분
+            result.add(
+                    new Meeting(
+                            Integer.parseInt(each[0]),
+                            each[2],
+                            ZonedDateTime.of(
+                                    LocalDateTime.parse(
+                                            each[6],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                    ),
+
+                                    ZoneId.of("Asia/Seoul")
+                            ),
+                            ZonedDateTime.of(
+                                    LocalDateTime.parse(
+                                            each[7],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                    ),
+
+                                    ZoneId.of("Asia/Seoul")
+                            ),
+                            new HashSet<>(Arrays.asList(each[3].split(","))),
+                            each[4],
+                            each[5]
+
+                    )
+            );
+        }
+
+        return result;
+    }
+
+    public List<NoDisturbance> readNoDisturbance(String path) throws IOException {
+        List<NoDisturbance> result = new ArrayList<>();
+
+        // 데이터를 읽는 부분
+        List<String[]> read = rawCsvReader.readAll(path);
+        for (int i = 0; i < read.size(); i++) {
+            if (skipHeader(i)) {
+                continue;
+            }
+
+            String[] each = read.get(i);
+
+            // NoDisturbance 으로 변환 부분
+            result.add(
+                    new NoDisturbance(
+                            Integer.parseInt(each[0]),
+                            each[2],
+                            ZonedDateTime.of(
+                                    LocalDateTime.parse(
+                                            each[3],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                    ),
+
+                                    ZoneId.of("Asia/Seoul")
+                            ),
+                            ZonedDateTime.of(
+                                    LocalDateTime.parse(
+                                            each[4],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                    ),
+
+                                    ZoneId.of("Asia/Seoul")
+                            )
+                    )
+            );
+        }
+
+        return result;
+    }
+
+    public List<OutOfOffice> readOutOfOffice(String path) throws IOException {
+        List<OutOfOffice> result = new ArrayList<>();
+
+        // 데이터를 읽는 부분
+        List<String[]> read = rawCsvReader.readAll(path);
+        for (int i = 0; i < read.size(); i++) {
+            if (skipHeader(i)) {
+                continue;
+            }
+
+            String[] each = read.get(i);
+
+            // OutOfOffice 으로 변환 부분
+            result.add(
+                    new OutOfOffice(
+                            Integer.parseInt(each[0]),
+                            each[2],
+                            ZonedDateTime.of(
+                                    LocalDateTime.parse(
+                                            each[3],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                    ),
+
+                                    ZoneId.of("Asia/Seoul")
+                            ),
+                            ZonedDateTime.of(
+                                    LocalDateTime.parse(
+                                            each[4],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                    ),
+
+                                    ZoneId.of("Asia/Seoul")
+                            )
+                    )
+            );
+        }
+
+        return result;
+    }
+
+    public List<Todo> readToDo(String path) throws IOException {
+        List<Todo> result = new ArrayList<>();
+
+        // 데이터를 읽는 부분
+        List<String[]> read = rawCsvReader.readAll(path);
+        for (int i = 0; i < read.size(); i++) {
+            if (skipHeader(i)) {
+                continue;
+            }
+
+            String[] each = read.get(i);
+
+            // Meeting 으로 변환 부분
+            result.add(
+                    new Todo(
+                            Integer.parseInt(each[0]),
+                            each[2],
+                            ZonedDateTime.of(
+                                    LocalDateTime.parse(
+                                            each[4],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                    ),
+
+                                    ZoneId.of("Asia/Seoul")
+                            ),
+                            ZonedDateTime.of(
+                                    LocalDateTime.parse(
+                                            each[5],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                    ),
+
+                                    ZoneId.of("Asia/Seoul")
+                            ),
+                            each[3]
+                    )
+            );
+        }
+
+        return result;
+    }
+
+    private static boolean skipHeader(int i) {
+        return i == 0;
+    }
+}
+```
+
 
 # 예외처리
 
 - 등록한 이벤트와 중복된 시간은 중복처리로 인해 등록이 안됩니다.
+```java
+    public void add(AbstractEvent event) {
+        if (hasScheduleConflictWith(event)) {
+            throw new RuntimeException(
+                    String.format(
+                            "이미 스케줄이 있는 시간에는 추가할 수 없습니다. %s : %s%n",
+                            event.getTitle(), event.getStartAt()
+                    )
+            );
+        }
+        this.events.add(event);
+    }
+```
+![Exception1]()
+
 - 등록된 이벤트를 삭제 후 해당 이벤트를 수정할 시 오류메시지 출력합니다.
+```java
+    public void validateAndUpdate(AbstractAuditableEvent update) {
+        if (deleteYn == true) {
+            throw new RuntimeException("이미 삭제된 이벤트는 수정할 수 없음");
+        }
 
-# 이미지
+        defaultUpdate(update);
+        update(update);
+    }
+```
+![Exception2]()
 
-![Console1](https://raw.githubusercontent.com/KeeHeung/calander-todo-list/main/src/main/resources/image/testImg.png) 형식으로 작성
+# 출력 결과
+
+![Console1](https://raw.githubusercontent.com/KeeHeung/calander-todo-list/main/src/main/resources/image/testImg.png)
