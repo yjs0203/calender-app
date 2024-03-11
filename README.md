@@ -15,7 +15,6 @@
 - OS : Windows
 - 개발환경 : Intellij IDEA
 - 저장소 : Github
-- 
 
 # 요구사항
 
