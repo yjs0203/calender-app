@@ -141,131 +141,21 @@ public class EventCsvReader {
 
         return result;
     }
-
-    public List<NoDisturbance> readNoDisturbance(String path) throws IOException {
-        List<NoDisturbance> result = new ArrayList<>();
-
-        // 데이터를 읽는 부분
-        List<String[]> read = rawCsvReader.readAll(path);
-        for (int i = 0; i < read.size(); i++) {
-            if (skipHeader(i)) {
-                continue;
-            }
-
-            String[] each = read.get(i);
-
-            // NoDisturbance 으로 변환 부분
-            result.add(
-                    new NoDisturbance(
-                            Integer.parseInt(each[0]),
-                            each[2],
-                            ZonedDateTime.of(
-                                    LocalDateTime.parse(
-                                            each[3],
-                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                                    ),
-
-                                    ZoneId.of("Asia/Seoul")
-                            ),
-                            ZonedDateTime.of(
-                                    LocalDateTime.parse(
-                                            each[4],
-                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                                    ),
-
-                                    ZoneId.of("Asia/Seoul")
-                            )
-                    )
-            );
-        }
-
-        return result;
-    }
-
-    public List<OutOfOffice> readOutOfOffice(String path) throws IOException {
-        List<OutOfOffice> result = new ArrayList<>();
-
-        // 데이터를 읽는 부분
-        List<String[]> read = rawCsvReader.readAll(path);
-        for (int i = 0; i < read.size(); i++) {
-            if (skipHeader(i)) {
-                continue;
-            }
-
-            String[] each = read.get(i);
-
-            // OutOfOffice 으로 변환 부분
-            result.add(
-                    new OutOfOffice(
-                            Integer.parseInt(each[0]),
-                            each[2],
-                            ZonedDateTime.of(
-                                    LocalDateTime.parse(
-                                            each[3],
-                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                                    ),
-
-                                    ZoneId.of("Asia/Seoul")
-                            ),
-                            ZonedDateTime.of(
-                                    LocalDateTime.parse(
-                                            each[4],
-                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                                    ),
-
-                                    ZoneId.of("Asia/Seoul")
-                            )
-                    )
-            );
-        }
-
-        return result;
-    }
-
-    public List<Todo> readToDo(String path) throws IOException {
-        List<Todo> result = new ArrayList<>();
-
-        // 데이터를 읽는 부분
-        List<String[]> read = rawCsvReader.readAll(path);
-        for (int i = 0; i < read.size(); i++) {
-            if (skipHeader(i)) {
-                continue;
-            }
-
-            String[] each = read.get(i);
-
-            // Meeting 으로 변환 부분
-            result.add(
-                    new Todo(
-                            Integer.parseInt(each[0]),
-                            each[2],
-                            ZonedDateTime.of(
-                                    LocalDateTime.parse(
-                                            each[4],
-                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                                    ),
-
-                                    ZoneId.of("Asia/Seoul")
-                            ),
-                            ZonedDateTime.of(
-                                    LocalDateTime.parse(
-                                            each[5],
-                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                                    ),
-
-                                    ZoneId.of("Asia/Seoul")
-                            ),
-                            each[3]
-                    )
-            );
-        }
-
-        return result;
-    }
-
+    
     private static boolean skipHeader(int i) {
         return i == 0;
     }
+    
+}
+
+public class RawCsvReader {
+  public List<String[]> readAll(String path) throws IOException {
+    InputStream in = getClass().getResourceAsStream(path);
+    InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
+
+    CSVReader csvReader = new CSVReader(reader);
+    return csvReader.readAll();
+  }
 }
 ```
 
@@ -274,6 +164,15 @@ public class EventCsvReader {
 
 - 등록한 이벤트와 중복된 시간은 중복처리로 인해 등록이 안됩니다.
 ```java
+
+    private boolean hasScheduleConflictWith(AbstractEvent event) {
+      return events.stream()
+              .anyMatch(each ->
+                      (event.getStartAt().isBefore(each.getEndAt()) && event.getStartAt().isAfter(each.getStartAt()))
+                              || (event.getEndAt().isAfter(each.getStartAt())) && event.getEndAt().isBefore(each.getEndAt())
+                              || event.getStartAt().equals(each.getStartAt()) && event.getEndAt().equals(each.getEndAt()));
+    }
+
     public void add(AbstractEvent event) {
         if (hasScheduleConflictWith(event)) {
             throw new RuntimeException(
@@ -285,6 +184,7 @@ public class EventCsvReader {
         }
         this.events.add(event);
     }
+
 ```
 ![Exception1]()
 
