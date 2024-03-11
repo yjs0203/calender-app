@@ -2,8 +2,19 @@
 # 일정관리 프로그램
 
 - 구글 캘린더 등 일정을 관리할 수 있는 서비스입니다.
+  - 캘린더 서비스를 제공합니다.
+  - 사용자는 회의, 방해금지, 자리비움, 할 일 4가지 이벤트를 작성할 수 있습니다.
+  - 작성한 파일들은 화면으로 출력됩니다.
+  - 수정, 삭제 가능합니다.<br>
 -  Java 기반으로 작성되었으며 콘솔에서 결과를 확인할 수 있습니다.
 
+# 개발 환경
+
+- JAVA 17
+- SpringBoot 3.2.3
+- OS : Mac Os
+- 개발환경 : Intellij IDEA
+- 저장소 : Github
 
 # 요구사항
 
@@ -78,21 +89,6 @@ public class NoDisturbance extends AbstractEvent{
 - open-csv
 - https://www.baeldung.com/opencsv
 
-
-# 소개. Calander Service
-
-- 캘린더 서비스를 제공합니다.
-- 사용자는 회의, 방해금지, 자리비움, 할 일 4가지 이벤트를 작성할 수 있습니다.
-- 작성한 파일들은 화면으로 출력됩니다.
-- 수정, 삭제 가능합니다.
-
-# 환경 소개
-
-- JAVA 17
-- SpringBoot 3.2.3
-- OS : Mac Os
-- 개발환경 : Intellij IDEA
-- 저장소 : Github
 
 # 예외처리
 
