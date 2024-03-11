@@ -12,7 +12,7 @@
 
 - JAVA 17
 - SpringBoot 3.2.3
-- OS : Mac Os
+- OS : Windows
 - 개발환경 : Intellij IDEA
 - 저장소 : Github
 
