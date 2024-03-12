@@ -1,3 +1,5 @@
+# 포트폴리오
+ - https://yjs0203.github.io/YJS.github.io/
 
 # 일정관리 프로그램
 
@@ -39,7 +41,7 @@
 - 일정을 삭제할 수 있다.
 - Soft-delete 로 처리한다.
 
-### 5.단위테스트(Test)
+### 5.단위테스트 (Test)
 - Junit5 프레임워크를 이용하여 단위 테스트 진행
   - Mockito 프레임워크를 사용하여 Mock데이터 생성
 
